@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:quiz_app/main.dart';
+import 'package:quiz_app/route_generator.dart';
 
 logInConfirm(BuildContext context,Map values) async {
   HttpOverrides.global = MyHttpOverrides();
@@ -14,11 +14,8 @@ logInConfirm(BuildContext context,Map values) async {
       });
   var response = await http.get(url);
   var decode = jsonDecode(response.body);
-  bool errorCheck = decode['response'];
-  if (errorCheck) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
-        HomeScreen(username: values['username'], pin: values['password']) ));
-  } else if(!errorCheck){
+  bool connected = decode['response'];
+  if (!connected) {
     var reason = decode['reason'];
     await showDialog(context: context, builder: (context) => AlertDialog(
       title: const Text('Error'),
@@ -27,6 +24,8 @@ logInConfirm(BuildContext context,Map values) async {
         child: const Text('Try Again'),)
       ],
     ),);
+  }else{
+    Navigator.of(context).pushNamed('/homeScreen',arguments: LoginArguments(values['username'], values['password']));
   }
 }
 

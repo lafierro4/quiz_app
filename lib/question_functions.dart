@@ -46,22 +46,27 @@ Question _getRandomQuestion<Question>(List<Question> list) {
 
 Widget quizProcess(){
   return Scaffold(
+    backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AnimatedTextKit( animatedTexts: [
-              TyperAnimatedText('Connecting to Server...'),
-              TyperAnimatedText('Getting Questions...'),
-              TyperAnimatedText('Making Quiz...'),
+              TyperAnimatedText('Connecting to Server...', textStyle: const TextStyle(color: Colors.white, fontSize: 25)),
+              TyperAnimatedText('Getting Questions...', textStyle: const TextStyle(color: Colors.white, fontSize: 25)),
+              TyperAnimatedText('Making Quiz...', textStyle: const TextStyle(color: Colors.white, fontSize: 25)),
             ], ),
-            const CircularProgressIndicator(semanticsLabel: 'Making Quiz', color: Colors.black, backgroundColor: Colors.purple,)
+            const Padding(padding: EdgeInsets.all(20)),
+            const CircularProgressIndicator(semanticsLabel: 'Making Quiz', color: Colors.purple, backgroundColor: Colors.white,)
           ],
         ),
       )
   );
 }
+
+
+
 
 class MyHttpOverrides extends HttpOverrides{
   @override

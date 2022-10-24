@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/question.dart';
 import 'package:quiz_app/login_form.dart';
 import 'package:quiz_app/question_functions.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:quiz_app/route_generator.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: LoginForm(key: key),
+      initialRoute: '/login',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
@@ -33,16 +35,7 @@ class HomeScreen extends StatefulWidget{
   State<HomeScreen> createState() => _HomeScreen();
 }
 
-class MakeQuiz extends StatefulWidget {
-  const MakeQuiz({super.key, required this.username, required this.pin});
 
-  final String username;
-  final String pin;
-
-  @override
-  State<MakeQuiz> createState() => _QuizMaking();
-
-}
 class _HomeScreen extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
@@ -58,8 +51,7 @@ class _HomeScreen extends State<HomeScreen>{
               style: TextStyle(color: Colors.white, fontSize: 25,),
             textAlign: TextAlign.center  ),
             TextButton(
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) =>
-                    MakeQuiz(username: widget.username, pin: widget.pin) )),
+                onPressed: () => Navigator.of(context).pushNamed('/makingQuiz',arguments: LoginArguments(widget.username, widget.pin)),
                 style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.purple)),
                 child: const Text("Make Quiz", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),))
           ],
@@ -70,7 +62,16 @@ class _HomeScreen extends State<HomeScreen>{
 
 }
 
+class MakeQuiz extends StatefulWidget {
+  const MakeQuiz({super.key, required this.username, required this.pin});
 
+  final String username;
+  final String pin;
+
+  @override
+  State<MakeQuiz> createState() => _QuizMaking();
+
+}
 class _QuizMaking extends State<MakeQuiz> {
   late Future<Quiz> quiz;
 
@@ -83,7 +84,7 @@ class _QuizMaking extends State<MakeQuiz> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Making Quiz...'),),
+        appBar: AppBar(title: const Text('Quizzing Time'),),
         body: Center(
           child: FutureBuilder(
     future: quiz,
