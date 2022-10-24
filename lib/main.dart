@@ -6,7 +6,6 @@ import 'package:quiz_app/login_form.dart';
 import 'package:quiz_app/question_functions.dart';
 import 'package:quiz_app/route_generator.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -45,11 +44,14 @@ class _HomeScreen extends State<HomeScreen>{
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children:   <Widget>[
-             const Text("This is a Quiz making app\nIt will make a Quiz composed of randomly selected questions\nTap the Button below to start\n\n",
-              style: TextStyle(color: Colors.white, fontSize: 25,),
-            textAlign: TextAlign.center  ),
+            SizedBox(height: 200, width: 500, child: Image.asset('lets_quiz.png')),
+            const Padding(padding: EdgeInsets.all(15),
+                child: Text("This is a Quiz taking app\nIt will make a Quiz composed of randomly selected questions"
+                    "\nTap the Button below to start\n\n",style: TextStyle(color: Colors.white, fontSize: 25,),
+                    textAlign: TextAlign.center,
+                )),
             TextButton(
                 onPressed: () => Navigator.of(context).pushNamed('/makingQuiz',arguments: LoginArguments(widget.username, widget.pin)),
                 style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.purple)),
@@ -110,25 +112,31 @@ class QuizReady extends StatefulWidget {
   State<QuizReady> createState() => _QuizReady();
 }
 class _QuizReady extends State<QuizReady>{
+
   @override
   Widget build(BuildContext context){
     double questionWorth = 100.0 / widget.quiz.getQuestions().length;
     return Scaffold(
+      backgroundColor: Colors.black87,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Text("Quiz is ready"),
-            Text("Consist of ${widget.quiz.getQuestions().length} Questions"),
-            Text("Each Question is worth ${questionWorth.toStringAsFixed(2)} for a total of 100.0 points"),
+            textFormatted("Quiz is ready"),
+            textFormatted("Consist of ${widget.quiz.getQuestions().length} Questions"),
+            textFormatted("Each Question is worth ${questionWorth.toStringAsFixed(2)} for a total of 100.0 points",
+            ),
             //button to Quiz here
           ],
-
         ),
       ),
     );
   }
+}
+
+Widget textFormatted(String text){
+  return Text(text,style: const TextStyle(fontSize: 20, color: Colors.white));
 }
 
 class MyHttpOverrides extends HttpOverrides{
