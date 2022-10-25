@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:quiz_app/question_functions.dart';
+import 'package:quiz_app/main.dart';
 
 class Question{
   final int _type; //will hold the type of question is being asked(either multiple choice or fill in blank)
@@ -25,7 +24,6 @@ class Question{
     }
     return Question(type, stem,false,figure);
   }
-
 
 }
 
@@ -56,10 +54,10 @@ Widget? _loadImage(String imageUrl){
 
 class MultipleChoice extends Question {
   final List<String> _options; //holds the list of answer choices
-  late int response; //holds the user's answer
+  int? response; //holds the user's answer
   final int _answer; //holds the correct answer
   get answer => _answer;
-  get options => _options;
+  List<String> get options => _options;
   MultipleChoice(type,stem, figure, this._options, this._answer,) : super(type,stem,false,figure);
   factory MultipleChoice.fromJson(Map<String,dynamic> data){
     final type = data['type'];
@@ -76,6 +74,7 @@ class FillInBlank extends Question {
   late String response;
   final List<String> _answer;
   get answer => _answer;
+
   FillInBlank(type,stem,figure, grade, this._answer) : super(type,stem,false,figure);
   factory FillInBlank.fromJson(Map<String,dynamic> data){
     final type = data['type'];
@@ -85,6 +84,7 @@ class FillInBlank extends Question {
     final answer = list.map((i) => i as String).toList();
     return FillInBlank(type,stem,figure,false, answer);
   }
+  setResponse(String r) => response = r;
 }
 class Quiz {
   final String name;
@@ -106,7 +106,7 @@ class Quiz {
   }
 }
 
-Widget askQuestion(Question question) {
+Widget askQuestion(Question question){
   Widget? figure;
   if(question.figure != null){
     figure = _loadImage(question.figure!);
@@ -121,19 +121,59 @@ Widget askQuestion(Question question) {
                 child: Text(question.stem, style: const TextStyle(color: Colors.white, fontSize: 20,),
                   textAlign: TextAlign.left,),),
             if(figure != null) SizedBox(height: 200.0,width: 750.0, child: figure),
+            if(question.type == 1 ) _showOptions(question as MultipleChoice),
+            if(question.type == 2) _showAnswerField(question as FillInBlank),
        ],
    )));
 }
 
+Widget _showAnswerField(FillInBlank question) {
+  TextEditingController response = TextEditingController();
+  notEmpty(String value) => value.isNotEmpty;
+  return TextFormField(
+    controller: response,
+    style: const TextStyle(color: Colors.purple),
+    decoration: const InputDecoration(
+      labelText: 'Insert Answer Here',
+      filled: true,
+      fillColor: Colors.white,
+    ),
+    validator: (value) =>  notEmpty(value!) ? null : 'A Response is required',
+    onChanged: question.setResponse(response.text),
+  );
+}
+
+
+Widget _showOptions(MultipleChoice question) {
+    return Column(
+      children: <Widget>[
+        for(int i = 1; i <= question.options.length;i++) ...[
+          Radio<int>(value: question.options.indexOf(question.options[i]), groupValue: question.response,
+              onChanged: (value) => { question.response = value! } ),
+          Expanded(child: textFormatted(question.options[i])) ],
+      ]
+    );
+}
+
 class QuizWidget extends StatelessWidget{
-  final Quiz quiz;
-
   const QuizWidget({super.key, required this.quiz});
-
+  final Quiz quiz;
   @override
   Widget build(BuildContext context) {
 
-    throw UnimplementedError();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: <Widget> [
+            for(int i = 1; i< quiz.question.length;i++)...[
+              Padding(padding: const EdgeInsets.only(bottom: 5),
+                child: Text ('Question $i', style: const TextStyle( fontSize: 30,color: Colors.purple),),),
+              askQuestion(quiz.question[i]),
+          ]
+        ]),
+      )
+    );
   }
-
 }
+
+

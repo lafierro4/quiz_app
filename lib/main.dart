@@ -72,7 +72,6 @@ class MakeQuiz extends StatefulWidget {
 
   @override
   State<MakeQuiz> createState() => _QuizMaking();
-
 }
 class _QuizMaking extends State<MakeQuiz> {
   late Future<Quiz> quiz;
@@ -111,6 +110,7 @@ class QuizReady extends StatefulWidget {
   @override
   State<QuizReady> createState() => _QuizReady();
 }
+
 class _QuizReady extends State<QuizReady>{
 
   @override
