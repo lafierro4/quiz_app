@@ -54,9 +54,12 @@ class _LoginFormState extends State<LoginForm> {
       child: ListView(
         children: <Widget>[
           Container(alignment: Alignment.center, padding : const EdgeInsets.all(25),color: Colors.purple,),
-          Container(
+          Row( mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 100, width: 150, child: Image.asset('assets/lightbulb.png')),
+                Container(
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.only(top: 20,bottom: 30,right: 30,left: 10),
               color: Colors.black,
               child: const Text(' CS 4381\nQuiz App',
                 style: TextStyle(
@@ -64,6 +67,8 @@ class _LoginFormState extends State<LoginForm> {
                     fontWeight: FontWeight.w500,
                     fontSize: 35),
               )
+              ),
+              ]
           ),
           Container(
               alignment: Alignment.center,

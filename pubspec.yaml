@@ -26,11 +26,10 @@ dev_dependencies:
   flutter_launcher_icons: ^0.10.0
   flutter_lints: ^2.0.0
 
-
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/app_icon.png"
+  image_path: 'assets/lightbulb.png'
 
 
 # For information on the generic Dart part of this file, see the
@@ -39,8 +38,9 @@ flutter_icons:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/lets_quiz.png
-    - assets/app_icon.png
+    - 'assets/lets_quiz.png'
+    - 'assets/app_icon.png'
+    - 'assets/lightbulb.png'
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

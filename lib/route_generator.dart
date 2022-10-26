@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/main.dart';
 import 'package:quiz_app/login_form.dart';
+import 'package:quiz_app/question.dart';
+import 'package:quiz_app/question_functions.dart';
 
 class LoginArguments{
   late final String username;
   late final String pin;
   LoginArguments(this.username, this.pin);
+}
+class QuizArgs{
+  late final Quiz quiz;
+  QuizArgs(this.quiz);
 }
 
 class RouteGenerator {
@@ -23,6 +29,10 @@ class RouteGenerator {
         LoginArguments arguments = args as LoginArguments;
         return MaterialPageRoute(builder: (_) =>
           MakeQuiz(username: arguments.username, pin: arguments.pin));
+      case '/quizStart' :
+        QuizArgs argument = args as QuizArgs;
+        return MaterialPageRoute (builder: (_) => QuizStart(quiz: argument.quiz));
+
         default: return _errorPage();
     }
   }

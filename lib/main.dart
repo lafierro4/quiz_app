@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        backgroundColor: Colors.black,
         primarySwatch: Colors.purple,
       ),
       initialRoute: '/login',
@@ -34,7 +35,6 @@ class HomeScreen extends StatefulWidget{
   State<HomeScreen> createState() => _HomeScreen();
 }
 
-
 class _HomeScreen extends State<HomeScreen>{
   @override
   Widget build(BuildContext context) {
@@ -46,12 +46,13 @@ class _HomeScreen extends State<HomeScreen>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children:   <Widget>[
-            SizedBox(height: 200, width: 500, child: Image.asset('lets_quiz.png')),
-            const Padding(padding: EdgeInsets.all(15),
-                child: Text("This is a Quiz taking app\nIt will make a Quiz composed of randomly selected questions"
-                    "\nTap the Button below to start\n\n",style: TextStyle(color: Colors.white, fontSize: 25,),
-                    textAlign: TextAlign.center,
-                )),
+            SizedBox(height: 185, width: 500, child: Image.asset('assets/lets_quiz.png')),
+            Padding(
+                padding: const EdgeInsets.all(15),
+                child: textFormatted("This is a Quiz taking app\n"
+                    "It will make a Quiz composed of randomly selected questions"
+                    "\nTap the Button below to start\n\n"),
+            ),
             TextButton(
                 onPressed: () => Navigator.of(context).pushNamed('/makingQuiz',arguments: LoginArguments(widget.username, widget.pin)),
                 style: ButtonStyle( backgroundColor: MaterialStateProperty.all(Colors.purple)),
@@ -61,7 +62,6 @@ class _HomeScreen extends State<HomeScreen>{
       ),
     );
   }
-
 }
 
 class MakeQuiz extends StatefulWidget {
@@ -120,14 +120,19 @@ class _QuizReady extends State<QuizReady>{
       backgroundColor: Colors.black87,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
+
           children: <Widget>[
             textFormatted("Quiz is ready"),
             textFormatted("Consist of ${widget.quiz.getQuestions().length} Questions"),
             textFormatted("Each Question is worth ${questionWorth.toStringAsFixed(2)} for a total of 100.0 points",
             ),
-            //button to Quiz here
+            ElevatedButton(onPressed: () => Navigator.of(context).pushReplacementNamed('/quizStart', arguments: QuizArgs(widget.quiz)),
+                style: ButtonStyle(
+                    textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 15)),
+                    backgroundColor: MaterialStateProperty.all(Colors.purple)),
+                child: textFormatted('Start Quiz')),
           ],
         ),
       ),
@@ -136,7 +141,7 @@ class _QuizReady extends State<QuizReady>{
 }
 
 Widget textFormatted(String text){
-  return Text(text,style: const TextStyle(fontSize: 20, color: Colors.white));
+  return Text(text,style: const TextStyle(fontSize: 20, color: Colors.white),textAlign: TextAlign.center,);
 }
 
 class MyHttpOverrides extends HttpOverrides{
