@@ -46,7 +46,7 @@ class _HomeScreen extends State<HomeScreen>{
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children:   <Widget>[
-            SizedBox(height: 185, width: 500, child: Image.asset('assets/lets_quiz.png')),
+            SizedBox(height: 150, width: 150, child: Image.asset('assets/lets_quiz.png')),
             Padding(
                 padding: const EdgeInsets.all(15),
                 child: textFormatted("This is a Quiz taking app\n"
@@ -63,6 +63,13 @@ class _HomeScreen extends State<HomeScreen>{
     );
   }
 }
+
+
+Widget userQuestions(int numQ) {
+
+  return TextFormField();
+}
+
 
 class MakeQuiz extends StatefulWidget {
   const MakeQuiz({super.key, required this.username, required this.pin});
@@ -128,7 +135,7 @@ class _QuizReady extends State<QuizReady>{
             textFormatted("Consist of ${widget.quiz.getQuestions().length} Questions"),
             textFormatted("Each Question is worth ${questionWorth.toStringAsFixed(2)} for a total of 100.0 points",
             ),
-            ElevatedButton(onPressed: () => Navigator.of(context).pushReplacementNamed('/quizStart', arguments: QuizArgs(widget.quiz)),
+            ElevatedButton(onPressed: () => Navigator.of(context).pushReplacementNamed('/quizStart', arguments: QuizArgs.inQuiz(widget.quiz, 0)),
                 style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 15)),
                     backgroundColor: MaterialStateProperty.all(Colors.purple)),

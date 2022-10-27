@@ -120,7 +120,6 @@ class _LoginFormState extends State<LoginForm> {
               ],
             );
           }),
-          SizedBox(height: 100, width: 150, child: Image.asset('assets/mon_cat.jpg')),
         ],
       ),
     );

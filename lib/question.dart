@@ -48,7 +48,7 @@ class MultipleChoice extends Question {
 class FillInBlank extends Question {
   String? response;
   final List<String> _answer;
-  get answer => _answer;
+  List<String> get answer => _answer;
   get getResponse => response;
   FillInBlank(type,stem,figure, this._answer) : super(type,stem,false, figure);
   factory FillInBlank.fromJson(Map<String,dynamic> data){

@@ -11,7 +11,9 @@ class LoginArguments{
 }
 class QuizArgs{
   late final Quiz quiz;
-  QuizArgs(this.quiz);
+  late final int currentQuestion;
+  QuizArgs.inQuiz(this.quiz, this.currentQuestion);
+  QuizArgs.grade(this.quiz);
 }
 
 class RouteGenerator {
@@ -31,7 +33,11 @@ class RouteGenerator {
           MakeQuiz(username: arguments.username, pin: arguments.pin));
       case '/quizStart' :
         QuizArgs argument = args as QuizArgs;
-        return MaterialPageRoute (builder: (_) => QuizStart(quiz: argument.quiz));
+        return MaterialPageRoute (builder: (_) => QuizStart(quiz: argument.quiz,
+          currentQuestion: argument.currentQuestion,));
+      case '/gradeQuiz':
+        QuizArgs argument = args as QuizArgs;
+        return MaterialPageRoute(builder: (_) => GradeQuiz(quiz: argument.quiz));
 
         default: return _errorPage();
     }
